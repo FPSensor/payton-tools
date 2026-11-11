@@ -5,16 +5,32 @@ Scripts used to collect the state of the phone during bring-up.
 ## collect.sh (phone, root)
 
 ```
-sh collect.sh A        snapshot of the current state, nothing is changed
+sh collect.sh A        full snapshot of the current state, nothing is changed
+sh collect.sh F        fast snapshot (no stack traces), a few seconds
 sh collect.sh nosens   empty the sensors multihal config and restart the
                        HAL and system_server (temporary, undone by a reboot)
-sh collect.sh B        snapshot after the nosens experiment
+sh collect.sh B        full snapshot after the nosens experiment
 sh collect.sh qrtr     start the QRTR name service by hand and restart the
                        sensors HAL (needs qrtr-ns and qrtr-lookup binaries
                        from linux-msm/qrtr in /data/local/tmp; not included)
 ```
 
-Results go to `/data/local/tmp/<step>`.
+Results go to `/data/local/tmp/<step>` (`A`, `B` or `F`):
+
+| File | Contents | A/B | F |
+|---|---|---|---|
+| `logcat.txt`, `dmesg.txt`, `props.txt` | `logcat -b all`, kernel log, `getprop` | ✓ | ✓ |
+| `ps.txt` | All threads with state and wait channel | ✓ | ✓ |
+| `sf.txt` | `dumpsys SurfaceFlinger` | ✓ | ✓ |
+| `native-<pid>.txt` | `debuggerd -b` of the sensors HALs | ✓ | |
+| `ss_java-<pid>.txt` | `debuggerd -j` of system_server | ✓ | |
+| `kstacks.txt` | Kernel stacks of every thread of the sensors HALs, system_server and surfaceflinger | ✓ | |
+| `pids.txt`, `protocols.txt`, `consoles.txt`, `devs.txt` | PIDs used, `/proc/net/protocols`, `/proc/consoles`, `ls -l /dev` | ✓ | |
+| `status.txt` | `done` when the collection finished | ✓ | ✓ |
+
+A and B are meant for hangs (UI stuck, a HAL that never starts): the stack
+traces show where each process is waiting. F is for a quick look when
+nothing is stuck.
 
 ## payton.ps1 (Windows, from platform-tools)
 
