@@ -61,7 +61,7 @@ so it survives reboots and ROM changes. Erasing modemst resets it.
   `MmTel Capabilities - [Voice: false ...]`), and `setprop ctl.restart
   vendor.qcrild` fixes it, the MBN is fine: qcrild started too early. On
   payton this was fixed by starting qcrild on `sys.boot_completed`
-  (android_device_motorola_msm8998-common, "Start qcrild once boot has
+  (android_device_motorola_sdm660-common, "Start qcrild once boot has
   completed"). The modem restart caused by `activate` restarts qcrild too,
   which is why bouncing configs used to appear to help.
 

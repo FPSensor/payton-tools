@@ -1,7 +1,7 @@
 # payton-tools
 
-Debug and test tools written while porting LineageOS 22.2 with kernel 4.19
-to the Moto X4 (payton). Most of them are generic enough for other
+Debug and test tools written while porting LineageOS with kernel 4.19 to
+the Moto X4 (payton). Most of them are generic enough for other
 Qualcomm/Motorola devices of the same era (sdm630/636/660).
 
 | Folder | What it is |
